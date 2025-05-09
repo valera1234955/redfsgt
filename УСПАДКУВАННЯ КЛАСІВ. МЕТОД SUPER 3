@@ -1,0 +1,39 @@
+class Transport:
+    def __init__(self, speed):
+        self.speed = speed
+
+    def move(self):
+        return f"Транспорт рухається зі швидкістю {self.speed} км/год"
+
+class Car(Transport):
+    def __init__(self, speed, brand):
+        super().__init__(speed)
+        self.brand = brand
+
+    def move(self):
+        return f"Автомобіль {self.brand} їде зі швидкістю {self.speed} км/год"
+
+class Bicycle(Transport):
+    def __init__(self, speed, type_bike):
+        super().__init__(speed)
+        self.type_bike = type_bike
+
+    def move(self):
+        return f"Велосипед типу {self.type_bike} рухається зі швидкістю {self.speed} км/год"
+
+class Airplane(Transport):
+    def __init__(self, speed, model):
+        super().__init__(speed)
+        self.model = model
+
+    def move(self):
+        return f"Літак моделі {self.model} летить зі швидкістю {self.speed} км/год"
+
+
+car = Car(120, "Toyota")
+bike = Bicycle(25, "гірський")
+plane = Airplane(900, "Boeing 747")
+
+print(car.move())
+print(bike.move())
+print(plane.move())
