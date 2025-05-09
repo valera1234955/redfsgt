@@ -1,0 +1,46 @@
+class Animal:
+    def __init__(self, name, age, species):
+        self.name = name
+        self.age = age
+        self.species = species
+
+    def speak(self):
+        return "Some generic animal sound"
+
+    def info(self):
+        return f"{self.name} - {self.species}, {self.age} років"
+
+class Dog(Animal):
+    def __init__(self, name, age, breed):
+        super().__init__(name, age, "Собака")
+        self.breed = breed
+
+    def speak(self):
+        return "Гав-гав!"
+
+    def info(self):
+        base_info = super().info()
+        return f"{base_info}, Порода: {self.breed}"
+
+class Cat(Animal):
+    def __init__(self, name, age, color):
+        super().__init__(name, age, "Кіт")
+        self.color = color
+
+    def speak(self):
+        return "Мяу!"
+
+    def info(self):
+        base_info = super().info()
+        return f"{base_info}, Колір: {self.color}"
+
+
+# Приклад використання:
+dog = Dog("Рекс", 5, "Овчарка")
+cat = Cat("Мурка", 3, "Сірий")
+
+print(dog.info())  # Рекс - Собака, 5 років, Порода: Овчарка
+print(dog.speak()) # Гав-гав!
+
+print(cat.info())  # Мурка - Кіт, 3 років, Колір: Сірий
+print(cat.speak()) # Мяу!
