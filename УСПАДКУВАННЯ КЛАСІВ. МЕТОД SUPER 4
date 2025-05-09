@@ -1,0 +1,42 @@
+class Device:
+    def __init__(self, name):
+        self.name = name
+        self.is_on = False
+
+    def turn_on(self):
+        if not self.is_on:
+            self.is_on = True
+            return f"{self.name} увімкнено"
+        return f"{self.name} вже увімкнено"
+
+    def turn_off(self):
+        if self.is_on:
+            self.is_on = False
+            return f"{self.name} вимкнено"
+        return f"{self.name} уже вимкнено"
+
+class Phone(Device):
+    def __init__(self, name, brand):
+        super().__init__(name)
+        self.brand = brand
+
+class Laptop(Device):
+    def __init__(self, name, brand):
+        super().__init__(name)
+        self.brand = brand
+
+class TV(Device):
+    def __init__(self, name, brand):
+        super().__init__(name)
+        self.brand = brand
+
+
+phone = Phone("Телефон", "Samsung")
+laptop = Laptop("Ноутбук", "Dell")
+tv = TV("Телевізор", "LG")
+
+print(phone.turn_on())
+print(laptop.turn_on())
+print(tv.turn_off())
+print(tv.turn_on())
+print(tv.turn_off())
