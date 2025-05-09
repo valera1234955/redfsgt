@@ -1,0 +1,27 @@
+class ProgrammingLanguage:
+    def __init__(self, name):
+        self.name = name
+
+    def display_greeting(self):
+        return f"Привіт з мови програмування {self.name}!"
+
+class Python(ProgrammingLanguage):
+    def __init__(self):
+        super().__init__("Python")
+
+class JavaScript(ProgrammingLanguage):
+    def __init__(self):
+        super().__init__("JavaScript")
+
+class Cpp(ProgrammingLanguage):
+    def __init__(self):
+        super().__init__("C++")
+
+
+python = Python()
+js = JavaScript()
+cpp = Cpp()
+
+print(python.display_greeting())
+print(js.display_greeting())
+print(cpp.display_greeting()
