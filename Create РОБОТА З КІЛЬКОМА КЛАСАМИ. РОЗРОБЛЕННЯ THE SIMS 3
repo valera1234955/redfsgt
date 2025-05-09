@@ -1,0 +1,83 @@
+class BankAccount:
+    def __init__(self, owner_name, account_number, balance=0):
+        self.owner_name = owner_name
+        self.account_number = account_number
+        self.balance = balance
+
+    def deposit(self, amount):
+        if amount <= 0:
+            return "Сума поповнення має бути більшою за 0"
+        self.balance += amount
+        return f"Поповнено {amount} грн. Новий баланс: {self.balance} грн"
+
+    def withdraw(self, amount):
+        if amount <= 0:
+            return "Сума зняття має бути більшою за 0"
+        if amount > self.balance:
+            return "Неможливо зняти кошти: недостатньо балансу"
+        self.balance -= amount
+        return f"Знято {amount} грн. Залишок: {self.balance} грн"
+
+    def __str__(self):
+        return f"Рахунок: {self.account_number}, Власник: {self.owner_name}, Баланс: {self.balance} грн"
+
+
+class Bank:
+    def __init__(self):
+        self.accounts = {}
+
+    def add_account(self, account):
+        if account.account_number in self.accounts:
+            return "Рахунок з таким номером уже існує"
+        self.accounts[account.account_number] = account
+        return "Рахунок додано успішно"
+
+    def deposit(self, account_number, amount):
+        account = self.accounts.get(account_number)
+        if not account:
+            return "Рахунок не знайдено"
+        return account.deposit(amount)
+
+    def withdraw(self, account_number, amount):
+        account = self.accounts.get(account_number)
+        if not account:
+            return "Рахунок не знайдено"
+        return account.withdraw(amount)
+
+    def transfer(self, from_acc_num, to_acc_num, amount):
+        from_acc = self.accounts.get(from_acc_num)
+        to_acc = self.accounts.get(to_acc_num)
+        if not from_acc:
+            return "Рахунок, з якого потрібно списати кошти, не знайдено"
+        if not to_acc:
+            return "Рахунок, на який потрібно перевести кошти, не знайдено"
+        if amount <= 0:
+            return "Сума переказу має бути більшою за 0"
+        if from_acc.balance < amount:
+            return "Немає достатньо коштів на рахунку для переказу"
+        from_acc.withdraw(amount)
+        to_acc.deposit(amount)
+        return f"Переказ {amount} грн з рахунку {from_acc_num} на рахунок {to_acc_num} здійснено"
+
+    def get_account_info(self, account_number):
+        account = self.accounts.get(account_number)
+        if not account:
+            return "Рахунок не знайдено"
+        return str(account)
+
+
+# Приклад використання:
+bank = Bank()
+
+acc1 = BankAccount("Олена", "1234567890", 1000)
+acc2 = BankAccount("Іван", "0987654321", 500)
+
+print(bank.add_account(acc1))
+print(bank.add_account(acc2))
+
+print(bank.deposit("1234567890", 500))
+print(bank.withdraw("0987654321", 200))
+print(bank.transfer("1234567890", "0987654321", 700))
+
+print(bank.get_account_info("1234567890"))
+print(bank.get_account_info("0987654321"))
