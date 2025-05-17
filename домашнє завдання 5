@@ -1,16 +1,19 @@
 import tkinter
-import inspect
 
-print("Усі атрибути модуля tkinter:")
-print(dir(tkinter))
+def first_function():
+    pass
 
-print("\nКласи у tkinter:")
-for name, obj in inspect.getmembers(tkinter, inspect.isclass):
-    print(name)
+class Human:
+    pass
 
-print("\nФункції у tkinter:")
-for name, obj in inspect.getmembers(tkinter, inspect.isfunction):
-    print(name)
+tk = tkinter
+first_f = first_function
+nick = Human
 
-print("\nДокументація для tkinter.Tk:")
-help(tkinter.Tk)
+print(tkinter.__name__)
+print(tk.__name__)
+print(first_function.__name__)
+print(first_f.__name__)
+print(Human.__name__)
+print(nick.__name__)
+print(__name__)
