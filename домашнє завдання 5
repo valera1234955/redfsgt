@@ -1,0 +1,16 @@
+import tkinter
+import inspect
+
+print("Усі атрибути модуля tkinter:")
+print(dir(tkinter))
+
+print("\nКласи у tkinter:")
+for name, obj in inspect.getmembers(tkinter, inspect.isclass):
+    print(name)
+
+print("\nФункції у tkinter:")
+for name, obj in inspect.getmembers(tkinter, inspect.isfunction):
+    print(name)
+
+print("\nДокументація для tkinter.Tk:")
+help(tkinter.Tk)
