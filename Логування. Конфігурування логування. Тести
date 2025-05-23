@@ -1,0 +1,8 @@
+import time
+
+def measure_time(func, *args, **kwargs):
+    start = time.time()
+    result = func(*args, **kwargs)
+    end = time.time()
+    elapsed = end - start
+    return result, elapsed
