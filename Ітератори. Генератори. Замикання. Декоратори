@@ -1,0 +1,10 @@
+class IterableObject:
+    def __iter__(self):
+        for i in range(1, 6):
+            yield i
+
+obj = IterableObject()
+
+# Ітерація по об'єкту
+for value in obj:
+    print(value)
