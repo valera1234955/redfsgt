@@ -6,3 +6,12 @@ def measure_time(func, *args, **kwargs):
     end = time.time()
     elapsed = end - start
     return result, elapsed
+
+def slow_function():
+    time.sleep(1)
+    return "Done"
+
+if __name__ == "__main__":
+    result, elapsed_time = measure_time(slow_function)
+    print(f"Результат: {result}")
+    print(f"Час виконання: {elapsed_time:.2f} секунд")
