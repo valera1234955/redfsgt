@@ -2,9 +2,9 @@ result = []
 
 def divider(a, b):
     if a < b:
-        raise ValueError("a менше за b")
+        raise ValueError("a < b")
     if b > 100:
-        raise IndexError("b більше 100")
+        raise IndexError("b > 100")
     return a / b
 
 data = {10: 2, 2: 5, "123": 4, 18: 0, []: 15, 8: 4}
@@ -14,6 +14,6 @@ for key in data:
         res = divider(key, data[key])
         result.append(res)
     except Exception as e:
-        print(f"Виняток: {type(e).__name__} - {e}")
+        print(f"Exception for key={key}, value={data[key]}: {type(e).__name__} - {e}")
 
 print(result)
