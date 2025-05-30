@@ -1,0 +1,59 @@
+import requests
+import xml.etree.ElementTree as ET
+import tkinter as tk
+from tkinter import messagebox
+
+class CurrencyConverter:
+    def __init__(self):
+        self.usd_rate = self.get_usd_rate()
+
+    def get_usd_rate(self):
+        try:
+            url = "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=USD&xml"
+            response = requests.get(url)
+            response.raise_for_status()
+            root = ET.fromstring(response.content)
+            rate = float(root.find("currency/rate").text)
+            return rate
+        except Exception as e:
+            messagebox.showerror("Помилка", f"Не вдалося отримати курс валют: {e}")
+            return None
+
+    def convert_to_usd(self, amount):
+        if self.usd_rate:
+            return amount / self.usd_rate
+        else:
+            raise ValueError("Курс USD не завантажено")
+
+class CurrencyConverterApp:
+    def __init__(self, root):
+        self.converter = CurrencyConverter()
+        self.root = root
+        self.root.title("Конвертер Валюти (UAH → USD)")
+        self.root.geometry("350x200")
+
+        self.label = tk.Label(root, text="Введіть суму в гривнях (UAH):", font=("Arial", 12))
+        self.label.pack(pady=10)
+
+        self.entry = tk.Entry(root, font=("Arial", 12), justify='center')
+        self.entry.pack()
+
+        self.convert_button = tk.Button(root, text="Конвертувати", command=self.convert, font=("Arial", 12))
+        self.convert_button.pack(pady=10)
+
+        self.result_label = tk.Label(root, text="", font=("Arial", 12, "bold"))
+        self.result_label.pack()
+
+    def convert(self):
+        try:
+            amount = float(self.entry.get())
+            result = self.converter.convert_to_usd(amount)
+            self.result_label.config(text=f"{amount:.2f} UAH ≈ {result:.2f} USD")
+        except ValueError:
+            messagebox.showerror("Помилка", "Будь ласка, введіть коректну числову суму.")
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = CurrencyConverterApp(root)
+    root.mainloop()
+
