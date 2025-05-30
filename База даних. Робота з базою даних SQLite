@@ -1,0 +1,50 @@
+import requests
+from bs4 import BeautifulSoup
+import sqlite3
+from datetime import datetime
+
+# Функція для отримання температури з сайту
+def get_temperature(city="kyiv"):
+    url = f"https://www.timeanddate.com/weather/ukraine/{city}"
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, "html.parser")
+
+    temp_tag = soup.find("div", class_="h2")
+    if temp_tag:
+        temp_text = temp_tag.text.strip()
+        temperature = temp_text.split("°")[0]  # отримати число
+        return int(temperature)
+    else:
+        raise Exception("Не вдалося знайти температуру на сторінці.")
+
+# Функція для створення БД і вставки даних
+def save_to_db(timestamp, temperature):
+    conn = sqlite3.connect("weather.db")
+    cursor = conn.cursor()
+
+    # Створюємо таблицю, якщо її ще немає
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS weather (
+            timestamp TEXT,
+            temperature INTEGER
+        )
+    """)
+
+    # Вставка даних
+    cursor.execute("INSERT INTO weather (timestamp, temperature) VALUES (?, ?)", (timestamp, temperature))
+
+    conn.commit()
+    conn.close()
+
+# --- Основна логіка ---
+if __name__ == "__main__":
+    try:
+        city = "kyiv"  # можна змінити на своє місто
+        temperature = get_temperature(city)
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        save_to_db(timestamp, temperature)
+        print(f"Температура {temperature}°C на {timestamp} записана в базу даних.")
+    except Exception as e:
+        print(f"Сталася помилка: {e}")
+
